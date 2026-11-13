@@ -34,6 +34,7 @@ There is no `dev`, `start`, or test script in `package.json`; `npm test` is a pl
 | GET    | `/`              | Health check, returns `{ message }`                 |
 | POST   | `/Add-Book`      | Inserts `req.body` into the `Book` collection       |
 | GET    | `/My-Books`      | Books where `userEmail` matches `?email=`, newest first |
+| PUT    | `/My-Books/:id`  | Updates `title`, `author`, `category`, `imageUrl`, `copies`, `description` when `userEmail` matches `?email=`; `userName`/`userEmail`/`createdAt` are untouched |
 | DELETE | `/My-Books/:id`  | Deletes a book by `_id` when its `userEmail` matches `?email=`; also drops its `borrows` records |
 | GET    | `/All-Books`     | All books, newest first                             |
 | GET    | `/All-Books/:id` | Single book by MongoDB `_id`                        |
