@@ -80,7 +80,7 @@ app.get("/All-Books", async (req, res) => {
   }
 })
 
-// GET /All-Books/:id
+
 // Returns a single book by its MongoDB id.
 app.get("/All-Books/:id", async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
@@ -92,7 +92,7 @@ app.get("/All-Books/:id", async (req, res) => {
     const book = await bookCollection.findOne({ _id: new ObjectId(req.params.id) })
 
     if (!book) {
-      res.status(404).send({ error: "Book not found." })
+      res.status(404).send({ error: "Book is not found." })
       return
     }
 
