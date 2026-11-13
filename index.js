@@ -99,7 +99,7 @@ app.delete("/My-Books/:id", async (req, res) => {
     })
 
     if (result.deletedCount !== 1) {
-      res.status(404).send({ error: "Book is not found or does not belong to you." })
+      res.status(404).send({ error: "Book not found or does not belong to you." })
       return
     }
 
