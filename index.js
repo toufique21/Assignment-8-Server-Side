@@ -47,7 +47,7 @@ app.get("/My-Books", async (req, res) => {
   const email = typeof req.query.email === "string" ? req.query.email.trim() : ""
 
   if (!email) {
-    res.status(400).send({ error: "An email query parameter is required." })
+    res.status(400).send({ error: "Email query parameter is required." })
     return
   }
 
