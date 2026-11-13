@@ -9,7 +9,7 @@ const PORT = 8000
 app.use(cors())
 app.use(express.json())
 
-//http://localhost:8000/Add-Book
+//http://localhost:8000/
 
 
 const client = new MongoClient(process.env.MONGODB_URL);
@@ -61,6 +61,42 @@ app.get("/My-Books", async (req, res) => {
   } catch (error) {
     console.dir(error)
     res.status(500).send({ error: "Could not load books. Please try again." })
+  }
+})
+
+// DELETE /My-Books/:id?email=user@example.com
+// Deletes a book, but only when it belongs to the given user.
+app.delete("/My-Books/:id", async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(400).send({ error: "Invalid book id." })
+    return
+  }
+
+  const email = typeof req.query.email === "string" ? req.query.email.trim() : ""
+
+  if (!email) {
+    res.status(400).send({ error: "Email query parameter is required." })
+    return
+  }
+
+  try {
+    const result = await bookCollection.deleteOne({
+      _id: new ObjectId(req.params.id),
+      userEmail: email,
+    })
+
+    if (result.deletedCount !== 1) {
+      res.status(404).send({ error: "Book is not found or does not belong to you." })
+      return
+    }
+
+    // Drop borrow records that point at the deleted book.
+    await db.collection("borrows").deleteMany({ bookId: req.params.id })
+
+    res.send({ message: "Book deleted successfully." })
+  } catch (error) {
+    console.dir(error)
+    res.status(500).send({ error: "Could not delete the book. Please try again." })
   }
 })
 
