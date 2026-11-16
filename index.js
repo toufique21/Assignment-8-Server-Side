@@ -7,7 +7,7 @@ import cors from "cors"
 const app = express()
 const PORT = 8000
 
-const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:3000"
+const CLIENT_URL = process.env.CLIENT_URL 
 
 app.use(cors({
   origin: CLIENT_URL,
@@ -344,5 +344,3 @@ app.get("/All-Books/:id", verifyAPI, async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running at ${PORT }`)
 })
-
-export default app;
